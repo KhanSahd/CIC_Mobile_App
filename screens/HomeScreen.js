@@ -1,29 +1,18 @@
-import { View, Text, SafeAreaView } from 'react-native';
-import React, { useEffect } from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import { styles } from '../theme';
+import { useSelector } from 'react-redux';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: true,
-      headerStyle: {
-        backgroundColor: 'black',
-      },
-      headerTitleStyle: {
-        color: 'white',
-        fontSize: 25,
-        fontWeight: 'thin',
-        textTransform: 'uppercase',
-      },
-      headerTitleAlign: 'left',
-    });
-  }, []);
+  const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   return (
-    <View className="bg-black h-full">
-      <Text className="text-white">HomeScreen</Text>
+    <View style={isDarkMode ? styles.dark : styles.light}>
+      <Text style={isDarkMode ? styles.darkText : styles.lightText} className="text-3xl font-bold">
+        Hello World
+      </Text>
     </View>
   );
 };
