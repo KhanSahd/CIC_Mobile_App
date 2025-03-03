@@ -15,12 +15,15 @@ const theme = {
 
 const styles = StyleSheet.create({
   dark: {
-    backgroundColor: theme.main_color_dark,
+    backgroundColor: '#0a0a0b',
+    componentBackgroundColor: '#212529',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     color: 'white',
     focusedColor: 'red',
+    navbar: '#0a0a0b',
+    borderColor: '#0a0a0b',
   },
   darkBorder: {
     borderBottomColor: theme.borderOnBlack,
@@ -44,13 +47,15 @@ const styles = StyleSheet.create({
   },
 
   light: {
-    backgroundColor: 'white',
+    backgroundColor: '#e9ecef',
+    componentBackgroundColor: '#f8f9fa',
     height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     color: 'black',
-    navbar: theme.lightNavbar,
+    navbar: '#e9ecef',
     focusedColor: 'white',
+    borderColor: '#f8f9fa',
   },
   lightText: {
     color: 'black',

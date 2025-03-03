@@ -4,14 +4,19 @@ import { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '@/screens/HomeScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Image, SafeAreaView, Text, TouchableOpacity, View } from 'react-native';
 import {
   HomeIcon,
   Cog6ToothIcon,
   CalendarDaysIcon,
   Bars2Icon,
+} from 'react-native-heroicons/outline';
+import {
   MoonIcon,
   SunIcon,
+  HomeIcon as SolidHome,
+  CalendarDaysIcon as SolidCalendar,
+  Cog6ToothIcon as SolidSettings,
 } from 'react-native-heroicons/solid';
 import GamesScreen from '@/screens/GamesScreen';
 import { styles, theme } from '../theme';
@@ -36,20 +41,16 @@ const TabNavigator = () => {
 
   const headerOptions = {
     headerStyle: {
-      backgroundColor: isDarkMode ? 'black' : theme.navbar,
-      borderBottomColor: isDarkMode
-        ? styles.darkBorder.borderBottomColor
-        : styles.light.borderOnBlack,
+      backgroundColor: isDarkMode ? styles.dark.navbar : styles.light.navbar,
+      borderBottomColor: isDarkMode ? styles.dark.borderColor : styles.light.borderColor,
       borderBottomWidth: 1,
     },
     headerTitleStyle: {
       color: isDarkMode ? styles.dark.color : styles.lightText,
       fontSize: 25,
       fontWeight: 'thin',
-      textTransform: 'uppercase',
     },
     headerTitleAlign: 'left',
-    headerShown: true,
     headerRight: () => (
       <TouchableOpacity onPress={handlePress} className="mr-4">
         {/* <Text style={isDarkMode ? styles.darkButtonText : styles.lightButtonText}>
@@ -73,7 +74,7 @@ const TabNavigator = () => {
     ),
   };
 
-  const TabIcon = ({ focused, icon: Icon, label }) => (
+  const TabIcon = ({ focused, icon: Icon, focusedIcon: FocusedIcon, label }) => (
     <View
       style={{
         flexDirection: 'column',
@@ -81,35 +82,16 @@ const TabNavigator = () => {
         justifyContent: 'center',
         width: '100',
       }}>
-      <Icon
-        size={40}
-        color={
-          focused && isDarkMode
-            ? theme.navbar
-            : isDarkMode
-            ? styles.dark.color
-            : focused && !isDarkMode
-            ? styles.light.focusedColor
-            : !focused && !isDarkMode
-            ? 'black'
-            : 'white'
-        }
-      />
+      {focused ? (
+        <FocusedIcon color={isDarkMode ? styles.dark.color : styles.light.color} />
+      ) : (
+        <Icon color={isDarkMode ? styles.dark.color : styles.light.color} />
+      )}
       <Text
         style={{
-          color:
-            focused && isDarkMode
-              ? styles.dark.focusedColor
-              : isDarkMode
-              ? styles.dark.color
-              : focused && !isDarkMode
-              ? styles.light.color
-              : !focused && !isDarkMode
-              ? 'black'
-              : 'white',
-          // width: '100%',
-          // textAlign: 'center',
-          fontSize: 16,
+          color: isDarkMode ? styles.dark.color : styles.light.color,
+          fontSize: 12,
+          fontWeight: focused ? 'bold' : 'normal',
         }}>
         {label}
       </Text>
@@ -120,27 +102,36 @@ const TabNavigator = () => {
     <Tabs.Navigator
       screenOptions={{
         tabBarStyle: {
-          borderTopColor: '#cca000',
+          borderTopColor: isDarkMode ? styles.dark.borderColor : styles.light.borderColor,
           flexDirection: 'row',
           alignItems: 'center',
-          backgroundColor: isDarkMode ? 'black' : theme.navbar,
+          justifyContent: 'space-evenly',
+          backgroundColor: isDarkMode ? styles.dark.navbar : styles.light.navbar,
+          height: 60,
         },
-        tabBarShowLabel: false,
+        animation: 'shift',
       }}>
       <Tabs.Screen
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: ({ focused }) => <TabIcon focused={focused} icon={HomeIcon} label="Home" />,
+          tabBarIcon: ({ focused }) => (
+            <TabIcon focused={focused} icon={HomeIcon} focusedIcon={SolidHome} label="Home" />
+          ),
           ...headerOptions,
         }}
       />
       <Tabs.Screen
-        name="Games"
+        name="Schedule"
         component={GamesScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={CalendarDaysIcon} label="Games" />
+            <TabIcon
+              focused={focused}
+              icon={CalendarDaysIcon}
+              focusedIcon={SolidCalendar}
+              label="Games"
+            />
           ),
           ...headerOptions,
         }}
@@ -150,7 +141,12 @@ const TabNavigator = () => {
         component={SettingsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
-            <TabIcon focused={focused} icon={Cog6ToothIcon} label="Settings" />
+            <TabIcon
+              focused={focused}
+              icon={Cog6ToothIcon}
+              focusedIcon={SolidSettings}
+              label="Settings"
+            />
           ),
           ...headerOptions,
         }}
