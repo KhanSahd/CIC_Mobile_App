@@ -6,50 +6,22 @@ import { useSelector } from 'react-redux';
 import client from '../backend/client';
 import axios from 'axios';
 import HeroImagesSlider from '@/components/HeroImagesSlider';
-import { paragraphQuery, heroImagesQuery, postCardQuery } from '@/grokQueries';
+import { homeppageQuery } from '@/grokQueries';
 import ParagraphEntry from '@/components/ParagraphEntry';
 import PostCard from '@/components/PostCard';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
-  let [images, setImages] = useState([]);
-  let [paragraphs, setParagraphs] = useState([]);
-  let [posts, setPosts] = useState([]);
+  let [homePage, setHomePage] = useState([]);
 
   useEffect(() => {
-    fetchData();
+    fetchHomePage();
   }, []);
 
-  const fetchData = () => {
-    fetchHeroImages();
-    fetchParagraphs();
-    fetchPosts();
-  };
-
-  const fetchHeroImages = async () => {
+  const fetchHomePage = async () => {
     try {
-      client.fetch(heroImagesQuery).then((data) => setImages(data[0].heroImages));
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
-
-  const fetchParagraphs = async () => {
-    try {
-      client.fetch(paragraphQuery).then((data) => {
-        setParagraphs(data);
-      });
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
-
-  const fetchPosts = async () => {
-    try {
-      client.fetch(postCardQuery).then((data) => {
-        setPosts(data);
-      });
+      client.fetch(homeppageQuery).then((data) => setHomePage(data));
     } catch (error) {
       console.error('error', error);
     }
@@ -57,20 +29,24 @@ const HomeScreen = () => {
 
   return (
     <ScrollView style={isDarkMode ? styles.dark : styles.light}>
-      {/* Hero Image */}
-      <HeroImagesSlider images={images} />
-
-      {/* Add Paragraphs */}
-      {paragraphs.map((paragraph, index) => (
-        <ParagraphEntry key={index} paragraph={paragraph} />
-      ))}
-
-      {/* Add Posts */}
-      <View className="w-full flex-row justify-around flex-wrap">
-        {posts.map((post, index) => (
-          <PostCard key={index} post={post} />
-        ))}
-      </View>
+      {homePage[0]?.sections.map((section, index) => {
+        switch (section._type) {
+          case 'slideshow':
+            return <HeroImagesSlider key={index} images={section.images} />;
+          case 'paragraph':
+            return <ParagraphEntry key={index} paragraph={section} />;
+          case 'posts':
+            return (
+              <View key={index} className="w-full flex-row justify-around flex-wrap gap-y-6">
+                {section.post.map((post, index) => (
+                  <PostCard key={index} post={post} />
+                ))}
+              </View>
+            );
+          default:
+            return null;
+        }
+      })}
     </ScrollView>
   );
 };

@@ -1,49 +1,17 @@
-const paragraphQuery = `
-*[
-  _type == "homepage" && category == "paragraph"
-] 
-| order(_createdAt asc) 
-{
-  _createdAt,
-  paragraphContent,
-  paragraphHeading
-}
-`;
-
-const heroImagesQuery = `*[
-          _type=='homepage' 
-          && category=='mainImages'
-          ]
-          {
-            heroImages[] {
-              caption,
-              asset ->
-              {
-                url
-              }
-            }
-          } 
-          `;
-
-const postCardQuery = `
-*[
-          _type=='homepage' 
-  && category=='post'
-          ]
-| order(_updatedAt asc)
-{
-  postContent,
-  video {
-    asset -> {
-      url
-    }
-  },
-    postImage {
-      asset -> {
-      url
-      }
+const homeppageQuery = `*[_type == "home"] {
+  ...,
+  sections[] {
+    ...,
+    images[] {
+      ...,
+      "url": asset->url
     },
-    publishedAt
+    post[] {
+      ...,
+      "postImageUrl": postImage.asset->url,
+      "videoUrl": video.asset->url
+    }
+  }
 }
 `;
 
@@ -65,4 +33,4 @@ const scheduleQuery = `
   }
 `;
 
-export { paragraphQuery, heroImagesQuery, postCardQuery, scheduleQuery };
+export { homeppageQuery, scheduleQuery };

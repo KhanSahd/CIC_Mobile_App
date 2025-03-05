@@ -2,8 +2,15 @@ import { View, Text, Image, Dimensions } from 'react-native';
 import React from 'react';
 import Carousel, { ICarouselInstance, Pagination } from 'react-native-reanimated-carousel';
 import { useSharedValue } from 'react-native-reanimated';
+import client from '../backend/client';
+import imageUrlBuilder from '@sanity/image-url';
 
 const HeroImagesSlider = ({ images }) => {
+  const builder = imageUrlBuilder(client);
+
+  function urlFor(source) {
+    return builder.image(source);
+  }
   const width = Dimensions.get('window').width;
   const ref = React.useRef(null);
   const progress = useSharedValue(0);
@@ -19,10 +26,7 @@ const HeroImagesSlider = ({ images }) => {
   };
 
   return (
-    // <Image
-    //   source={{ uri: images[0].asset.url }}
-    //   style={{ width: '100%', height: '300', backgroundColor: 'red' }}
-    // />
+    // <Image source={{ uri: images[0].asset._ref }} style={{ width: '100%', height: '300' }} />
     <Carousel
       ref={ref}
       width={width}
@@ -34,7 +38,7 @@ const HeroImagesSlider = ({ images }) => {
       renderItem={({ item }) => (
         <View>
           <Image
-            source={{ uri: item.asset.url }}
+            source={{ uri: urlFor(item.asset._ref).url() }}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           {/* Overlay */}

@@ -42,9 +42,6 @@ const GamesScreen = () => {
     });
 
     setScheduleForToday(todaysSchedule);
-
-    console.log('Formatted Date:', formattedDate);
-    console.log('Filtered Games:', todaysSchedule);
   };
 
   return (
