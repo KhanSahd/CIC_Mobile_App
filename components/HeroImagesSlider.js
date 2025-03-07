@@ -31,6 +31,7 @@ const HeroImagesSlider = ({ images }) => {
       ref={ref}
       width={width}
       height={300}
+      style={{ marginBottom: 10 }}
       data={images}
       onProgressChange={progress}
       autoPlay

@@ -4,11 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import { styles } from '../theme';
 import { useSelector } from 'react-redux';
 import client from '../backend/client';
-import axios from 'axios';
 import HeroImagesSlider from '@/components/HeroImagesSlider';
 import { homeppageQuery } from '@/grokQueries';
 import ParagraphEntry from '@/components/ParagraphEntry';
 import PostCard from '@/components/PostCard';
+import List from '@/components/List';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -37,12 +37,14 @@ const HomeScreen = () => {
             return <ParagraphEntry key={index} paragraph={section} />;
           case 'posts':
             return (
-              <View key={index} className="w-full flex-row justify-around flex-wrap gap-y-6">
+              <View key={index} className="w-full flex-row justify-around mb-10 flex-wrap gap-y-7">
                 {section.post.map((post, index) => (
                   <PostCard key={index} post={post} />
                 ))}
               </View>
             );
+          case 'rankingList':
+            return <List key={index} rankingList={section} />;
           default:
             return null;
         }

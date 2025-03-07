@@ -22,6 +22,7 @@ import GamesScreen from '@/screens/GamesScreen';
 import { styles, theme } from '../theme';
 import { useSelector, useDispatch } from 'react-redux';
 import { toggleDarkMode } from '@/features/darkOrLightMode/darkModeSlice';
+import HighlightsScreen from '@/screens/HighlightsScreen';
 
 const TabNavigator = () => {
   const navigation = useNavigation();
@@ -137,15 +138,15 @@ const TabNavigator = () => {
         }}
       />
       <Tabs.Screen
-        name="Settings"
-        component={SettingsScreen}
+        name="Highlights"
+        component={HighlightsScreen}
         options={{
           tabBarIcon: ({ focused }) => (
             <TabIcon
               focused={focused}
               icon={Cog6ToothIcon}
               focusedIcon={SolidSettings}
-              label="Settings"
+              label="Highlights"
             />
           ),
           ...headerOptions,

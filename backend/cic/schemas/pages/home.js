@@ -26,6 +26,9 @@ export default {
         {
           type: 'posts',
         },
+        {
+          type: 'rankingList',
+        },
       ],
     },
   ],

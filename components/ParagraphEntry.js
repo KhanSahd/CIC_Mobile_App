@@ -6,7 +6,7 @@ const ParagraphEntry = ({ paragraph }) => {
   const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   return (
-    <View className="w-full p-5">
+    <View className="w-full p-5 mb-10">
       {/* Heading, if present */}
       {paragraph.heading && (
         <Text

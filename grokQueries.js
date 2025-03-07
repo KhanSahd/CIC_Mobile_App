@@ -1,4 +1,5 @@
-const homeppageQuery = `*[_type == "home"] {
+const homeppageQuery = `
+*[_type == "home"] {
   ...,
   sections[] {
     ...,
@@ -10,27 +11,40 @@ const homeppageQuery = `*[_type == "home"] {
       ...,
       "postImageUrl": postImage.asset->url,
       "videoUrl": video.asset->url
+    },
+    ranking[]->{  
+      name,
+      position[0]
     }
   }
 }
+
 `;
 
 const scheduleQuery = `
   *[
-  _type == 'schedule'
+    _type == 'schedule'
   ]
+  | order(date asc) 
   {
     date,
     team1 -> {
       name,
       record
     },
-      team2 -> {
-        name,
-        record
-      },
-      eventType
+    team2 -> {
+      name,
+      record
+    },
+    eventType
   }
 `;
 
-export { homeppageQuery, scheduleQuery };
+const highlightsQuery = `
+*[_type == "highlights"] 
+{
+  caption,
+    "url": clip.asset._ref
+}`;
+
+export { homeppageQuery, scheduleQuery, highlightsQuery };

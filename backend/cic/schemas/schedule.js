@@ -44,4 +44,21 @@ export default defineType({
       options: {},
     }),
   ],
+  preview: {
+    select: {
+      team1: 'team1.name', // Assuming the referenced team has a 'name' field
+      team2: 'team2.name',
+      date: 'date',
+    },
+    prepare({team1, team2, date}) {
+      const title = team1 && team2 ? `${team1} vs ${team2}` : 'Pickup Game'
+      const formattedDate = date
+        ? new Intl.DateTimeFormat('en-US', {dateStyle: 'long'}).format(new Date(date))
+        : 'No Date'
+      return {
+        title,
+        subtitle: formattedDate,
+      }
+    },
+  },
 })
