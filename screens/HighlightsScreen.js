@@ -1,9 +1,9 @@
-import { View, Text, FlatList, Dimensions } from 'react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigation } from '@react-navigation/native';
-import client from '../backend/client';
-import { highlightsQuery } from '@/grokQueries';
-import { ResizeMode, Video } from 'expo-av';
+import { View, Text, FlatList, Dimensions } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import client from "../sanity/client";
+import { highlightsQuery } from "@/grokQueries";
+import { ResizeMode, Video } from "expo-av";
 
 const HighlightsScreen = () => {
   const navigation = useNavigation();
@@ -16,11 +16,12 @@ const HighlightsScreen = () => {
     <View
       key={item.id}
       style={{
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
+        width: "100%",
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <Video
         ref={video}
         source={{ uri: item.url }}
@@ -45,7 +46,7 @@ const HighlightsScreen = () => {
       const results = await client.fetch(highlightsQuery);
       setData(results);
     } catch (error) {
-      console.error('Error fetching highlights:', error);
+      console.error("Error fetching highlights:", error);
     }
   };
 
