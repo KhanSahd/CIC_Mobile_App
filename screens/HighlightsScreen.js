@@ -1,64 +1,41 @@
-import { View, Text, FlatList, Dimensions } from 'react-native';
+import { View, Text } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import client from '../backend/client';
-import { highlightsQuery } from '@/grokQueries';
-import { ResizeMode, Video } from 'expo-av';
+import { useSelector } from 'react-redux';
+import { styles } from '@/theme';
 
 const HighlightsScreen = () => {
-  const navigation = useNavigation();
-  let [data, setData] = useState([]);
-  const video = useRef(null);
+	const navigation = useNavigation();
+	const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
-  console.log(data[0]?.url);
+	useEffect(() => {
+		navigation.setOptions({
+			headerShown: false,
+		});
+	}, [navigation]);
 
-  const renderItem = ({ item }) => (
-    <View
-      key={item.id}
-      style={{
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Video
-        ref={video}
-        source={{ uri: item.url }}
-        style={{ flex: 1 }}
-        resizeMode={ResizeMode.CONTAIN}
-      />
-    </View>
-  );
+	// useEffect(() => {
+	// 	fetchData();
+	// }, []);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, [navigation]);
+	// const fetchData = async () => {
+	// 	try {
+	// 		const results = await client.fetch(highlightsQuery);
+	// 		setData(results);
+	// 	} catch (error) {
+	// 		console.error('Error fetching highlights:', error);
+	// 	}
+	// };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const results = await client.fetch(highlightsQuery);
-      setData(results);
-    } catch (error) {
-      console.error('Error fetching highlights:', error);
-    }
-  };
-
-  return (
-    <FlatList
-      data={data}
-      renderItem={renderItem}
-      keyExtractor={(item) => item.id}
-      pagingEnabled
-      decelerationRate="fast"
-      showsVerticalScrollIndicator={false}
-    />
-  );
+	return (
+		<View
+			className="flex-1 justify-center items-center"
+			style={isDarkMode ? styles.dark : styles.light}
+		>
+			<Text style={isDarkMode ? styles.darkText : styles.lightText}>Highlights</Text>
+		</View>
+	);
 };
 
 export default HighlightsScreen;
