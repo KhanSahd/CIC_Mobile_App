@@ -1,9 +1,9 @@
-import { NavigationContainer, StackRouter } from '@react-navigation/native';
-import TabNavigator from './Navigators/TabNavigator';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Provider } from 'react-redux';
-import store from './store';
-import { PaperProvider } from 'react-native-paper';
+import { NavigationContainer, StackRouter } from "@react-navigation/native";
+import TabNavigator from "./Navigators/TabNavigator";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Provider } from "react-redux";
+import store from "./store";
+import { PaperProvider } from "react-native-paper";
 
 export default function App() {
   const stack = createNativeStackNavigator();
