@@ -1,21 +1,23 @@
-import { View, Text, ScrollView } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import CalendarStrip from 'react-native-calendar-strip';
-import { styles, theme } from '../theme';
-import { useSelector } from 'react-redux';
+import { View, Text, ScrollView } from "react-native";
+import React, { useEffect, useState } from "react";
+import CalendarStrip from "react-native-calendar-strip";
+import { styles, theme } from "../theme";
+import { useSelector } from "react-redux";
 
 const WeeklyCalendar = ({ updateDate }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const isDarkMode = useSelector((state) => state.darkMode.isDarkMode);
 
   useEffect(() => {
     // Set initial date to today's date
-    const currentDate = new Date().toISOString().split('T')[0]; // Get YYYY-MM-DD format
+    const currentDate = new Date().toISOString().split("T")[0]; // Get YYYY-MM-DD format
     setSelectedDate(currentDate);
   }, []);
 
   const handleDateChange = (date) => {
-    const formattedDate = date.toISOString().split('T')[0]; // Convert to "YYYY-MM-DD"
+    const formattedDate = date.toISOString().split("T")[0]; // Convert to "YYYY-MM-DD"
     setSelectedDate(formattedDate);
     updateDate(formattedDate);
   };
@@ -26,18 +28,28 @@ const WeeklyCalendar = ({ updateDate }) => {
       style={{
         height: 100,
         paddingVertical: 10,
-        borderBottomColor: isDarkMode ? styles.dark.borderColor : styles.light.borderColor,
+        borderBottomColor: isDarkMode
+          ? styles.dark.borderColor
+          : styles.light.borderColor,
         borderBottomWidth: 1,
       }}
-      calendarHeaderStyle={{ color: isDarkMode ? styles.dark.color : styles.light.color }}
-      dateNumberStyle={{ color: isDarkMode ? styles.dark.color : styles.light.color }}
-      dateNameStyle={{ color: isDarkMode ? styles.dark.color : styles.light.color }}
+      calendarHeaderStyle={{
+        color: isDarkMode ? styles.dark.color : styles.light.color,
+        fontSize: 12,
+      }}
+      dateNumberStyle={{
+        color: isDarkMode ? styles.dark.color : styles.light.color,
+      }}
+      dateNameStyle={{
+        color: isDarkMode ? styles.dark.color : styles.light.color,
+        fontSize: 12,
+      }}
       iconContainer={{ flex: 0.1 }}
       onDateSelected={handleDateChange}
       selectedDate={selectedDate}
-      highlightDateContainerStyle={{ backgroundColor: 'blue' }}
-      highlightDateNameStyle={{ color: theme.calendarText }}
-      highlightDateNumberStyle={{ color: theme.calendarText }}
+      highlightDateContainerStyle={{ backgroundColor: "blue" }}
+      highlightDateNameStyle={{ color: theme.calendarText, fontSize: 12 }}
+      highlightDateNumberStyle={{ color: theme.calendarText, fontSize: 12 }}
       scrollerPaging={true}
     />
   );
