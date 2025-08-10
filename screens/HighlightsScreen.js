@@ -1,7 +1,6 @@
 import { View, Text } from 'react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import client from '../backend/client';
 import { useSelector } from 'react-redux';
 import { styles } from '@/theme';
 
